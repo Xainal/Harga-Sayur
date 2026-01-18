@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Update Harga Sayur Grosir Harian</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --card:#ffffff;
+      --yellow:#ffd54a;
+      --yellow-soft:#ffe88a;
+      --shadow: 0 10px 25px rgba(0,0,0,.10);
+      --radius: 16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    a{ color: inherit; }
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    header{
+      margin: 10px 0 18px;
+    }
+    .h-title{
+      font-size: clamp(22px, 3.2vw, 34px);
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .h-sub{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-soft) 100%);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+
+    .panel-top{
+      display:flex;
+      gap: 14px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .panel-meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .chip{
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 13px;
+      color: #111827;
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    label{
+      font-size: 13px;
+      color: #111827;
+    }
+
+    select, input[type="text"], input[type="number"]{
+      width: 100%;
+      max-width: 260px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.15);
+      background: rgba(255,255,255,.85);
+      outline: none;
+    }
+    select:focus, input:focus{
+      border-color: rgba(0,0,0,.35);
+      box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+    }
+
+    .btn{
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 650;
+      cursor: pointer;
+      background: #111827;
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(0,0,0,.18);
+      transition: transform .06s ease, opacity .15s ease;
+      white-space: nowrap;
+    }
+    .btn:hover{ opacity:.92; }
+    .btn:active{ transform: translateY(1px); }
+    .btn.secondary{
+      background: rgba(255,255,255,.9);
+      color: #111827;
+      border: 1px solid rgba(0,0,0,.12);
+      box-shadow: none;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    @media (min-width: 860px){
+      .grid{
+        grid-template-columns: 1fr 360px;
+      }
+    }
+
+    .card{
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.9);
+    }
+    table{
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 760px;
+      font-size: 14px;
+    }
+    thead th{
+      text-align: left;
+      padding: 12px 12px;
+      background: rgba(17,24,39,.06);
+      color: #111827;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      border-bottom: 1px solid rgba(0,0,0,.10);
+      white-space: nowrap;
+    }
+    tbody td{
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    tbody tr:hover{
+      background: rgba(17,24,39,.03);
+    }
+    tbody tr:last-child td{
+      border-bottom: 0;
+    }
+    .num{ text-align: right; font-variant-numeric: tabular-nums; }
+    .muted{ color: var(--muted); font-size: 13px; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(0,0,0,.10);
+    }
+    .badge.up{ background: rgba(16,185,129,.15); color: #065f46; }
+    .badge.down{ background: rgba(239,68,68,.15); color: #7f1d1d; }
+    .badge.flat{ background: rgba(107,114,128,.15); color: #374151; }
+
+    .summary{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .kpi .box{
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .kpi .label{
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .kpi .value{
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .note{
+      margin-top: 10px;
+      color: rgba(17,24,39,.75);
+      font-size: 13px;
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+    .modal{
+      width: min(920px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      border: 1px solid rgba(0,0,0,.12);
+    }
+    .modal header{
+      margin:0;
+      padding: 16px 16px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .modal h2{
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+    .modal .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .modal .content{
+      padding: 14px 16px 16px;
+    }
+    .form-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 760px){
+      .form-grid{
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .field{
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field small{
+      color: var(--muted);
+    }
+    .modal footer{
+      display:flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(17,24,39,.02);
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      position: sticky;
+      bottom: 0;
+    }
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="h-title">Update Harga Sayur Grosir Harian</h1>
+      <p class="h-sub">Pantau harga grosir terbaru per komoditas</p>
+    </header>
+
+    <section class="panel" aria-label="Panel informasi harga">
+      <div class="panel-top">
+        <div>
+          <div class="panel-meta">
+            <span class="chip" id="chipUnit">Satuan: Per Kantong</span>
+            <span class="chip" id="chipSource">Sumber: -</span>
+            <span class="chip" id="chipUpdated">Last updated: -</span>
+          </div>
+          <div class="note" style="margin-top:10px">
+            *Harga di bawah adalah <b>HARGA GROSIR PER KANTONG</b> dan dapat berubah sewaktu-waktu.
+          </div>
+        </div>
+
+        <div class="controls" role="group" aria-label="Kontrol halaman">
+          <div class="field" style="min-width: 220px;">
+            <label for="dateSelect">Tanggal</label>
+            <select id="dateSelect" aria-label="Pilih tanggal"></select>
+          </div>
+
+          <div class="field" style="min-width: 260px;">
+            <label for="searchInput">Cari komoditas</label>
+            <input id="searchInput" type="text" placeholder="Ketik: tomat, buncis, ..." />
+          </div>
+
+          <button class="btn secondary" id="btnExport" type="button">Export CSV</button>
+          <button class="btn" id="btnOpenAdmin" type="button">Update Harga Grosir</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="table-wrap" aria-label="Tabel harga">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:60px;">No</th>
+                  <th>Komoditas</th>
+                  <th class="num">Harga Grosir (Rp/kantong)</th>
+                  <th class="num">Perubahan (Rp) vs yesterday</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <div class="note">
+            *Harga bersifat informatif dan dapat berubah.
+          </div>
+        </div>
+
+        <aside class="summary">
+          <div class="kpi" aria-label="Ringkasan">
+            <div class="box">
+              <div class="label">Jumlah Komoditas</div>
+              <div class="value" id="kpiCount">0</div>
+            </div>
+            <div class="box">
+              <div class="label">Rata-rata Harga</div>
+              <div class="value" id="kpiAvg">Rp 0</div>
+            </div>
+            <div class="box">
+              <div class="label">Naik</div>
+              <div class="value" id="kpiUp">0</div>
+            </div>
+            <div class="box">
+              <div class="label">Turun</div>
+              <div class="value" id="kpiDown">0</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
+              <div>
+                <div style="font-weight:800; margin-bottom:6px;">Info</div>
+                <div class="muted">
+                  Data disimpan di <b>localStorage</b> (browser). Jika buka di perangkat/browser lain,
+                  datanya tidak ikut pindah.
+                </div>
+              </div>
+              <div class="chip" id="storageKeyHint" title="Key localStorage">Key: -</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <header>
+        <h2 id="modalTitle">Update Harga Grosir</h2>
+        <p class="sub" id="modalSub">Masukkan harga per kantong untuk tanggal terpilih.</p>
+      </header>
+
+      <div class="content">
+        <div class="field" style="max-width: 360px; margin-bottom: 12px;">
+          <label for="sourceSelect">Sumber Harga</label>
+          <select id="sourceSelect">
+            <option value="Pasar Induk">Pasar Induk</option>
+            <option value="Supplier">Supplier</option>
+            <option value="Gudang">Gudang</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+          <small>Contoh: Pasar Induk, Supplier, Gudang, dll.</small>
+        </div>
+
+        <form id="priceForm">
+          <div class="form-grid" id="formGrid"></div>
+        </form>
+      </div>
+
+      <footer>
+        <button class="btn secondary" type="button" id="btnCloseModal">Batal</button>
+        <button class="btn" type="button" id="btnSave">Simpan</button>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // Config
+    // =========================
+    const PIN = "1234";
+    const COMMODITIES = [
+      "Tomat",
+      "Cabe Keriting",
+      "Daun Bawang",
+      "Sawi Putih",
+      "Cabe Keriting Hijau",
+      "Wortel Super",
+      "Wortel Cakar",
+      "Buncis"
+    ];
+
+    // Seed prices (dummy) per kantong
+    const SEED_PRICES = {
+      "Tomat": 25000,
+      "Cabe Keriting": 45000,
+      "Daun Bawang": 18000,
+      "Sawi Putih": 15000,
+      "Cabe Keriting Hijau": 38000,
+      "Wortel Super": 22000,
+      "Wortel Cakar": 20000,
+      "Buncis": 24000
+    };
+
+    // =========================
+    // Helpers
+    // =========================
+    const rupiah = (n) => {
+      const v = Number(n || 0);
+      return "Rp " + v.toLocaleString("id-ID");
+    };
+
+    const formatDate = (d) => {
+      // yyyy-mm-dd
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const parseIntSafe = (v) => {
+      const n = parseInt(String(v).replace(/[^\d-]/g, ""), 10);
+      return Number.isFinite(n) ? n : 0;
+    };
+
+    const storageKey = (dateStr) => `harga_grosir_kantong:${dateStr}`;
+
+    function getTodayYesterday() {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const yest = new Date(today);
+      yest.setDate(today.getDate() - 1);
+      return { today, yest };
+    }
+
+    function ensureSeedForDate(dateStr) {
+      const key = storageKey(dateStr);
+      const existing = localStorage.getItem(key);
+      if (existing) return;
+
+      const payload = {
+        date: dateStr,
+        source: "Pasar Induk",
+        lastUpdated: new Date().toISOString(),
+        prices: { ...SEED_PRICES }
+      };
+      localStorage.setItem(key, JSON.stringify(payload));
+    }
+
+    function loadData(dateStr) {
+      const key = storageKey(dateStr);
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch { return null; }
+    }
+
+    function saveData(dateStr, data) {
+      const key = storageKey(dateStr);
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    function computeDiffs(current, previous) {
+      const diffs = {};
+      COMMODITIES.forEach(name => {
+        const cur = parseIntSafe(current?.prices?.[name] ?? 0);
+        const prev = parseIntSafe(previous?.prices?.[name] ?? 0);
+        diffs[name] = cur - prev;
+      });
+      return diffs;
+    }
+
+    function statusFromDiff(diff) {
+      if (diff > 0) return { text: "Naik", cls: "up" };
+      if (diff < 0) return { text: "Turun", cls: "down" };
+      return { text: "Tetap", cls: "flat" };
+    }
+
+    function downloadCSV(filename, rows) {
+      const escapeCell = (cell) => {
+        const s = String(cell ?? "");
+        if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+        return s;
+      };
+      const csv = rows.map(r => r.map(escapeCell).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // =========================
+    // UI Elements
+    // =========================
+    const dateSelect = document.getElementById("dateSelect");
+    const searchInput = document.getElementById("searchInput");
+    const tbody = document.getElementById("tbody");
+
+    const chipSource = document.getElementById("chipSource");
+    const chipUpdated = document.getElementById("chipUpdated");
+    const storageKeyHint = document.getElementById("storageKeyHint");
+
+    const kpiCount = document.getElementById("kpiCount");
+    const kpiAvg = document.getElementById("kpiAvg");
+    const kpiUp = document.getElementById("kpiUp");
+    const kpiDown = document.getElementById("kpiDown");
+
+    // Modal elements
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const btnOpenAdmin = document.getElementById("btnOpenAdmin");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnSave = document.getElementById("btnSave");
+    const formGrid = document.getElementById("formGrid");
+    const sourceSelect = document.getElementById("sourceSelect");
+
+    const btnExport = document.getElementById("btnExport");
+
+    let activeDateStr = "";
+    let activeData = null;
+    let prevData = null;
+
+    // =========================
+    // Render
+    // =========================
+    function render() {
+      if (!activeData) return;
+
+      const query = (searchInput.value || "").trim().toLowerCase();
+      const diffs = computeDiffs(activeData, prevData);
+
+      const rows = COMMODITIES
+        .filter(name => name.toLowerCase().includes(query))
+        .map((name, idx) => {
+          const price = parseIntSafe(activeData.prices?.[name] ?? 0);
+          const diff = diffs[name] ?? 0;
+          const st = statusFromDiff(diff);
+          return { name, idx: idx + 1, price, diff, st };
+        });
+
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${r.idx}</td>
+          <td><b>${r.name}</b></td>
+          <td class="num">${rupiah(r.price)}</td>
+          <td class="num">${(r.diff >= 0 ? "" : "-") + rupiah(Math.abs(r.diff)).replace("Rp -","Rp ")}</td>
+          <td><span class="badge ${r.st.cls}">${r.st.text}</span></td>
+        </tr>
+      `).join("");
+
+      // meta chips
+      const src = activeData.source || "-";
+      chipSource.textContent = `Sumber: ${src}`;
+
+      const upd = activeData.lastUpdated ? new Date(activeData.lastUpdated) : null;
+      const updText = upd && !isNaN(upd.getTime())
+        ? upd.toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })
+        : "-";
+      chipUpdated.textContent = `Last updated: ${updText}`;
+
+      storageKeyHint.textContent = `Key: ${storageKey(activeDateStr)}`;
+
+      // KPI
+      const allPrices = COMMODITIES.map(n => parseIntSafe(activeData.prices?.[n] ?? 0));
+      const avg = allPrices.reduce((a,b)=>a+b,0) / (allPrices.length || 1);
+      const upCount = COMMODITIES.filter(n => (diffs[n] ?? 0) > 0).length;
+      const downCount = COMMODITIES.filter(n => (diffs[n] ?? 0) < 0).length;
+
+      kpiCount.textContent = String(COMMODITIES.length);
+      kpiAvg.textContent = rupiah(Math.round(avg));
+      kpiUp.textContent = String(upCount);
+      kpiDown.textContent = String(downCount);
+    }
+
+    function loadAndRender(dateStr) {
+      activeDateStr = dateStr;
+
+      // ensure seed exists for current date; also seed yesterday to enable diffs
+      ensureSeedForDate(dateStr);
+      const y = new Date(dateStr);
+      // create yesterday string from selected date
+      const yest = new Date(y.getFullYear(), y.getMonth(), y.getDate() - 1);
+      const yestStr = formatDate(yest);
+      ensureSeedForDate(yestStr);
+
+      activeData = loadData(dateStr);
+      prevData = loadData(yestStr);
+
+      // update modal subtitle
+      document.getElementById("modalSub").textContent =
+        `Masukkan harga per kantong untuk tanggal: ${dateStr} (dibandingkan dengan ${yestStr}).`;
+
+      // prepare modal form inputs
+      buildFormInputs(activeData);
+
+      // set source dropdown to active source
+      sourceSelect.value = activeData?.source || "Pasar Induk";
+
+      render();
+    }
+
+    function buildFormInputs(data) {
+      formGrid.innerHTML = "";
+      COMMODITIES.forEach(name => {
+        const price = parseIntSafe(data?.prices?.[name] ?? 0);
+        const id = `price_${name.replace(/\s+/g, "_").toLowerCase()}`;
+        const wrap = document.createElement("div");
+        wrap.className = "field";
+        wrap.innerHTML = `
+          <label for="${id}">${name} <span class="muted">(Rp/kantong)</span></label>
+          <input id="${id}" name="${id}" type="number" inputmode="numeric" min="0" step="100"
+                 placeholder="Contoh: 25000" value="${price}" />
+          <small>Masukkan angka tanpa titik/koma (contoh: 25000)</small>
+        `;
+        formGrid.appendChild(wrap);
+      });
+    }
+
+    // =========================
+    // Events
+    // =========================
+    function openModalWithPin() {
+      const pin = prompt("Masukkan PIN Admin:");
+      if (pin === null) return; // cancel
+      if (String(pin) !== PIN) {
+        alert("PIN salah.");
+        return;
+      }
+      modalBackdrop.style.display = "flex";
+      // focus first input
+      const first = formGrid.querySelector("input");
+      if (first) first.focus();
+    }
+
+    function closeModal() {
+      modalBackdrop.style.display = "none";
+    }
+
+    function saveFromModal() {
+      if (!activeData) return;
+
+      const prices = {};
+      COMMODITIES.forEach(name => {
+        const id = `price_${name.replace(/\s+/g, "_").toLowerCase()}`;
+        const el = document.getElementById(id);
+        prices[name] = parseIntSafe(el?.value ?? 0);
+      });
+
+      const updated = {
+        date: activeDateStr,
+        source: sourceSelect.value || "Pasar Induk",
+        lastUpdated: new Date().toISOString(),
+        prices
+      };
+
+      saveData(activeDateStr, updated);
+      activeData = updated;
+
+      closeModal();
+      render();
+    }
+
+    function exportCSV() {
+      if (!activeData) return;
+      const diffs = computeDiffs(activeData, prevData);
+
+      const rows = [
+        ["Tanggal", activeDateStr],
+        ["Sumber Harga", activeData.source || "-"],
+        ["Last Updated", activeData.lastUpdated ? new Date(activeData.lastUpdated).toLocaleString("id-ID") : "-"],
+        [],
+        ["Komoditas", "Harga Grosir (Rp/kantong)", "Perubahan (Rp) vs yesterday", "Status"]
+      ];
+
+      COMMODITIES.forEach(name => {
+        const price = parseIntSafe(activeData.prices?.[name] ?? 0);
+        const diff = diffs[name] ?? 0;
+        const st = statusFromDiff(diff).text;
+        rows.push([name, price, diff, st]);
+      });
+
+      const filename = `harga-grosir-kantong_${activeDateStr}.csv`;
+      downloadCSV(filename, rows);
+    }
+
+    // =========================
+    // Init
+    // =========================
+    (function init(){
+      const { today, yest } = getTodayYesterday();
+      const todayStr = formatDate(today);
+      const yestStr = formatDate(yest);
+
+      // Build date selector options (today, yesterday)
+      dateSelect.innerHTML = `
+        <option value="${todayStr}">Hari ini (${todayStr})</option>
+        <option value="${yestStr}">Kemarin (${yestStr})</option>
+      `;
+
+      // seed both
+      ensureSeedForDate(todayStr);
+      ensureSeedForDate(yestStr);
+
+      // load today
+      loadAndRender(todayStr);
+
+      dateSelect.addEventListener("change", (e) => loadAndRender(e.target.value));
+      searchInput.addEventListener("input", () => render());
+
+      btnOpenAdmin.addEventListener("click", openModalWithPin);
+      btnCloseModal.addEventListener("click", closeModal);
+      btnSave.addEventListener("click", saveFromModal);
+
+      // Close modal when clicking backdrop
+      modalBackdrop.addEventListener("click", (e) => {
+        if (e.target === modalBackdrop) closeModal();
+      });
+      // ESC to close
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modalBackdrop.style.display === "flex") closeModal();
+      });
+
+      btnExport.addEventListener("click", exportCSV);
+    })();
+  </script>
+</body>
+</html>
