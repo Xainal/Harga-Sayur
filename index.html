@@ -1,163 +1,236 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Update Harga Sayur Grosir Harian / MAKASSAR (Pasar Kalimbu)</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Update Harga Sayur Grosir Harian</title>
 
 <style>
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:#f6f7fb;
-  color:#111827;
-}
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:24px 16px;
-}
-h1{margin:0 0 6px}
-.subtitle{color:#6b7280;margin-bottom:16px}
-.panel{
-  background:#ffd54a;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,.12);
-}
-.top{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  justify-content:space-between;
-  align-items:flex-end;
-}
-.chip{
-  background:rgba(255,255,255,.7);
-  border:1px solid rgba(0,0,0,.15);
-  border-radius:999px;
-  padding:6px 10px;
-  font-size:13px;
-}
-.controls{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-label{font-size:13px}
-select,input{
-  padding:8px 10px;
-  border-radius:10px;
-  border:1px solid rgba(0,0,0,.2);
-}
-button{
-  border:none;
-  border-radius:10px;
-  padding:9px 12px;
-  font-weight:600;
-  cursor:pointer;
-}
-.btn-dark{background:#111827;color:#fff}
-.btn-light{background:#fff;border:1px solid rgba(0,0,0,.2)}
-.table-wrap{
-  margin-top:14px;
-  overflow-x:auto;
-  background:#fff;
-  border-radius:14px;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:760px;
-}
-th,td{
-  padding:12px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:left;
-}
-th{background:#f3f4f6}
-.num{text-align:right}
-.badge{
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:700;
-}
-.up{background:#d1fae5;color:#065f46}
-.down{background:#fee2e2;color:#7f1d1d}
-.flat{background:#e5e7eb;color:#374151}
+  :root{
+    --bg:#f6f7fb;
+    --text:#111827;
+    --muted:#6b7280;
+    --yellow:#ffd54a;
+    --card:#ffffff;
+    --line:#e5e7eb;
+    --dark:#111827;
+    --radius:16px;
+    --shadow:0 10px 25px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  .container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 14px 40px;
+  }
+  h1{margin:0 0 6px;font-size:clamp(20px,4.6vw,32px);letter-spacing:-.02em}
+  .subtitle{color:var(--muted);margin:0 0 14px;font-size:14px}
 
-/* modal */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-.modal{
-  background:#fff;
-  border-radius:16px;
-  max-width:900px;
-  width:100%;
-  max-height:90vh;
-  overflow:auto;
-}
-.modal header{
-  padding:16px;
-  border-bottom:1px solid #e5e7eb;
-}
-.modal main{padding:16px}
-.modal footer{
-  padding:12px 16px;
-  border-top:1px solid #e5e7eb;
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-}
-@media(min-width:768px){
-  .grid{grid-template-columns:1fr 1fr}
-}
+  .panel{
+    background:var(--yellow);
+    border-radius:var(--radius);
+    padding:16px;
+    box-shadow:var(--shadow);
+    border:1px solid rgba(0,0,0,.06);
+  }
+
+  .top{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:12px;
+  }
+  .meta{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .chip{
+    background:rgba(255,255,255,.75);
+    border:1px solid rgba(0,0,0,.12);
+    border-radius:999px;
+    padding:6px 10px;
+    font-size:13px;
+  }
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:flex-end;
+    justify-content:flex-end;
+  }
+  .control{
+    min-width: 160px;
+  }
+  label{font-size:13px}
+  select,input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid rgba(0,0,0,.18);
+    background:rgba(255,255,255,.9);
+    outline:none;
+  }
+  select:focus,input:focus{
+    border-color:rgba(0,0,0,.35);
+    box-shadow:0 0 0 3px rgba(0,0,0,.08);
+  }
+
+  .btn{
+    width: 100%;
+    border:none;
+    border-radius:12px;
+    padding:10px 12px;
+    font-weight:700;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-dark{background:var(--dark);color:#fff}
+  .btn-light{background:#fff;border:1px solid rgba(0,0,0,.2);color:var(--dark)}
+
+  /* Mobile layout improvements */
+  @media (max-width: 640px){
+    .top{align-items:stretch}
+    .controls{justify-content:stretch}
+    .control{min-width: 0; flex: 1 1 100%;}
+    .btn{flex: 1 1 100%;}
+  }
+
+  .table-wrap{
+    margin-top:12px;
+    background:var(--card);
+    border-radius:14px;
+    border:1px solid rgba(0,0,0,.10);
+    overflow-x:auto; /* important for mobile */
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:760px; /* keeps columns readable */
+  }
+  th,td{
+    padding:12px;
+    border-bottom:1px solid var(--line);
+    text-align:left;
+    white-space:nowrap;
+    font-size:14px;
+  }
+  th{background:#f3f4f6}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+
+  .badge{
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:800;
+    border:1px solid rgba(0,0,0,.08);
+    display:inline-block;
+  }
+  .up{background:#d1fae5;color:#065f46}
+  .down{background:#fee2e2;color:#7f1d1d}
+  .flat{background:#e5e7eb;color:#374151}
+
+  .note{
+    margin:10px 0 0;
+    font-size:13px;
+    color:#374151;
+  }
+
+  /* Modal */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:14px;
+  }
+  .modal{
+    background:#fff;
+    border-radius:16px;
+    width:min(920px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border:1px solid rgba(0,0,0,.12);
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  .modal header{
+    padding:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal main{
+    padding:16px;
+  }
+  .modal footer{
+    padding:12px 16px 16px;
+    border-top:1px solid var(--line);
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    position:sticky;
+    bottom:0;
+    background:rgba(17,24,39,.02);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  @media (max-width: 640px){
+    .grid{grid-template-columns:1fr} /* 1 column on mobile */
+    .modal footer{flex-direction:column}
+    .modal footer .btn{width:100%}
+  }
 </style>
 </head>
 
 <body>
 <div class="container">
   <h1>Update Harga Sayur Grosir Harian</h1>
-  <div class="subtitle">Satuan: <b>Per Kantong</b></div>
+  <p class="subtitle">Satuan: <b>Per Kantong</b></p>
 
-  <div class="panel">
+  <section class="panel">
     <div class="top">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="meta">
         <span class="chip" id="chipSource">Sumber: -</span>
         <span class="chip" id="chipUpdated">Last update: -</span>
       </div>
 
       <div class="controls">
-        <div>
-          <label>Tanggal</label><br>
+        <div class="control">
+          <label for="dateSelect">Tanggal</label>
           <select id="dateSelect"></select>
         </div>
-        <div>
-          <label>Cari</label><br>
-          <input id="search" placeholder="tomat, buncis...">
+        <div class="control">
+          <label for="search">Cari</label>
+          <input id="search" placeholder="tomat, buncis..." />
         </div>
-        <button class="btn-light" onclick="exportCSV()">Export CSV</button>
-        <button class="btn-dark" onclick="openAdmin()">Update Harga</button>
+        <div class="control" style="max-width:220px">
+          <button class="btn btn-light" type="button" onclick="exportCSV()">Export CSV</button>
+        </div>
+        <div class="control" style="max-width:220px">
+          <button class="btn btn-dark" type="button" onclick="openAdmin()">Update Harga</button>
+        </div>
       </div>
     </div>
 
-    <div class="table-wrap">
+    <div class="table-wrap" aria-label="Tabel harga">
       <table>
         <thead>
           <tr>
-            <th>No</th>
+            <th style="width:60px">No</th>
             <th>Komoditas</th>
             <th class="num">Harga (Rp/kantong)</th>
             <th class="num">Perubahan</th>
@@ -168,133 +241,181 @@ th{background:#f3f4f6}
       </table>
     </div>
 
-    <p style="font-size:13px;color:#374151;margin-top:10px">
-      * Harga di bawah adalah <b>harga grosir per kantong</b>
-    </p>
-  </div>
+    <p class="note">* Harga di bawah adalah <b>harga grosir per kantong</b> dan dapat berubah sewaktu-waktu.</p>
+  </section>
 </div>
 
 <!-- MODAL -->
-<div class="overlay" id="overlay">
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
   <div class="modal">
     <header>
-      <b>Update Harga Grosir</b>
+      <div style="font-weight:800">Update Harga Grosir</div>
       <div style="font-size:13px;color:#6b7280" id="modalDate"></div>
     </header>
+
     <main>
-      <label>Sumber Harga</label><br>
-      <select id="source" style="margin-bottom:14px">
-        <option>Pasar Induk</option>
-        <option>Supplier</option>
-        <option>Gudang</option>
-      </select>
+      <div style="max-width:360px;margin-bottom:14px">
+        <label for="source">Sumber Harga</label>
+        <select id="source">
+          <option>Kota Makassar</option>
+          <option>Supplier</option>
+          <option>Gudang</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
 
       <div class="grid" id="formGrid"></div>
     </main>
+
     <footer>
-      <button class="btn-light" onclick="closeAdmin()">Batal</button>
-      <button class="btn-dark" onclick="saveData()">Simpan</button>
+      <button class="btn btn-light" type="button" onclick="closeAdmin()">Batal</button>
+      <button class="btn btn-dark" type="button" onclick="saveData()">Simpan</button>
     </footer>
   </div>
 </div>
 
 <script>
-const PIN="1234";
-const ITEMS=[
- "Tomat","Cabe Keriting","Daun Bawang","Sawi Putih",
- "Cabe Keriting Hijau","Wortel Super","Wortel Cakar","Buncis"
-];
-const SEED={
- "Tomat":25000,"Cabe Keriting":45000,"Daun Bawang":18000,"Sawi Putih":15000,
- "Cabe Keriting Hijau":38000,"Wortel Super":22000,"Wortel Cakar":20000,"Buncis":24000
-};
+  const PIN="1234";
+  const ITEMS=[
+    "Tomat","Cabe Keriting","Daun Bawang","Sawi Putih",
+    "Cabe Keriting Hijau","Wortel Super","Wortel Cakar","Buncis"
+  ];
+  const SEED={
+    "Tomat":25000,"Cabe Keriting":45000,"Daun Bawang":18000,"Sawi Putih":15000,
+    "Cabe Keriting Hijau":38000,"Wortel Super":22000,"Wortel Cakar":20000,"Buncis":24000
+  };
 
-const rupiah=n=>"Rp "+Number(n||0).toLocaleString("id-ID");
-const today=()=>new Date().toISOString().slice(0,10);
-const yest=d=>{let x=new Date(d);x.setDate(x.getDate()-1);return x.toISOString().slice(0,10)};
-const key=d=>"harga_kantong_"+d;
+  const rupiah = n => "Rp " + Number(n||0).toLocaleString("id-ID");
+  const todayStr = () => new Date().toISOString().slice(0,10);
+  const yestStr = d => { let x=new Date(d); x.setDate(x.getDate()-1); return x.toISOString().slice(0,10); };
+  const key = d => "harga_kantong_" + d;
 
-let curDate=today(), curData={}, prevData={};
+  let curDate = todayStr(), curData = {}, prevData = {};
 
-function init(){
- let t=today(), y=yest(t);
- dateSelect.innerHTML=`<option>${t}</option><option>${y}</option>`;
- seed(t); seed(y);
- load(t);
- dateSelect.onchange=e=>load(e.target.value);
- search.oninput=render;
-}
-function seed(d){
- if(!localStorage[key(d)])
-  localStorage[key(d)]=JSON.stringify({date:d,source:"Pasar Induk",time:new Date(),prices:{...SEED}});
-}
-function load(d){
- curDate=d;
- curData=JSON.parse(localStorage[key(d)]);
- prevData=JSON.parse(localStorage[key(yest(d))]);
- modalDate.textContent="Tanggal: "+d;
- source.value=curData.source;
- buildForm();
- render();
-}
-function buildForm(){
- formGrid.innerHTML="";
- ITEMS.forEach(i=>{
-  let id=i.replace(/\s/g,"_");
-  formGrid.innerHTML+=`
-   <div>
-    <label>${i}</label>
-    <input id="${id}" type="number" value="${curData.prices[i]||0}">
-   </div>`;
- });
-}
-function render(){
- let q=search.value.toLowerCase();
- tbody.innerHTML="";
- ITEMS.filter(i=>i.toLowerCase().includes(q)).forEach((i,n)=>{
-  let cur=curData.prices[i]||0;
-  let prev=prevData.prices[i]||0;
-  let diff=cur-prev;
-  let st=diff>0?"up":diff<0?"down":"flat";
-  let txt=diff>0?"Naik":diff<0?"Turun":"Tetap";
-  tbody.innerHTML+=`
-   <tr>
-    <td>${n+1}</td>
-    <td><b>${i}</b></td>
-    <td class="num">${rupiah(cur)}</td>
-    <td class="num">${rupiah(diff)}</td>
-    <td><span class="badge ${st}">${txt}</span></td>
-   </tr>`;
- });
- chipSource.textContent="Sumber: "+curData.source;
- chipUpdated.textContent="Last update: "+new Date(curData.time).toLocaleString("id-ID");
-}
-function openAdmin(){
- let p=prompt("PIN Admin:");
- if(p!==PIN) return alert("PIN salah");
- overlay.style.display="flex";
-}
-function closeAdmin(){overlay.style.display="none";}
-function saveData(){
- ITEMS.forEach(i=>{
-  let id=i.replace(/\s/g,"_");
-  curData.prices[i]=Number(document.getElementById(id).value||0);
- });
- curData.source=source.value;
- curData.time=new Date();
- localStorage[key(curDate)]=JSON.stringify(curData);
- closeAdmin(); render();
-}
-function exportCSV(){
- let csv="Komoditas,Harga\\n";
- ITEMS.forEach(i=>csv+=`${i},${curData.prices[i]}\\n`);
- let a=document.createElement("a");
- a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
- a.download="harga_grosir_kantong.csv";
- a.click();
-}
+  function seed(d){
+    if(!localStorage.getItem(key(d))){
+      localStorage.setItem(key(d), JSON.stringify({
+        date:d, source:"Pasar Induk", time:new Date().toISOString(), prices:{...SEED}
+      }));
+    }
+  }
 
-init();
+  function load(d){
+    curDate=d;
+    const y = yestStr(d);
+    seed(d); seed(y);
+
+    curData = JSON.parse(localStorage.getItem(key(d)));
+    prevData = JSON.parse(localStorage.getItem(key(y)));
+
+    document.getElementById("modalDate").textContent = "Tanggal: " + d + " (dibandingkan " + y + ")";
+    document.getElementById("source").value = curData.source || "Pasar Induk";
+
+    buildForm();
+    render();
+  }
+
+  function buildForm(){
+    const grid = document.getElementById("formGrid");
+    grid.innerHTML="";
+    ITEMS.forEach(name=>{
+      const id = "p_" + name.replace(/\s+/g,"_").toLowerCase();
+      const val = Number(curData.prices?.[name] || 0);
+      const wrap = document.createElement("div");
+      wrap.innerHTML = `
+        <label for="${id}">${name}</label>
+        <input id="${id}" type="number" min="0" step="100" value="${val}">
+      `;
+      grid.appendChild(wrap);
+    });
+  }
+
+  function status(diff){
+    if(diff>0) return {cls:"up", text:"Naik"};
+    if(diff<0) return {cls:"down", text:"Turun"};
+    return {cls:"flat", text:"Tetap"};
+  }
+
+  function render(){
+    const q = (document.getElementById("search").value||"").toLowerCase().trim();
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML="";
+
+    const filtered = ITEMS.filter(n => n.toLowerCase().includes(q));
+    filtered.forEach((name, idx)=>{
+      const cur = Number(curData.prices?.[name] || 0);
+      const prev = Number(prevData.prices?.[name] || 0);
+      const diff = cur - prev;
+      const st = status(diff);
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${idx+1}</td>
+          <td><b>${name}</b></td>
+          <td class="num">${rupiah(cur)}</td>
+          <td class="num">${rupiah(diff)}</td>
+          <td><span class="badge ${st.cls}">${st.text}</span></td>
+        </tr>
+      `;
+    });
+
+    document.getElementById("chipSource").textContent = "Sumber: " + (curData.source || "-");
+    const t = curData.time ? new Date(curData.time) : null;
+    document.getElementById("chipUpdated").textContent =
+      "Last update: " + (t && !isNaN(t) ? t.toLocaleString("id-ID") : "-");
+  }
+
+  function openAdmin(){
+    const p = prompt("PIN Admin:");
+    if(p !== PIN) return alert("PIN salah");
+    document.getElementById("overlay").style.display="flex";
+  }
+  function closeAdmin(){
+    document.getElementById("overlay").style.display="none";
+  }
+  function saveData(){
+    ITEMS.forEach(name=>{
+      const id = "p_" + name.replace(/\s+/g,"_").toLowerCase();
+      const v = Number(document.getElementById(id).value || 0);
+      curData.prices[name] = v;
+    });
+    curData.source = document.getElementById("source").value || "Pasar Induk";
+    curData.time = new Date().toISOString();
+
+    localStorage.setItem(key(curDate), JSON.stringify(curData));
+    closeAdmin();
+    render();
+  }
+
+  function exportCSV(){
+    let csv="Komoditas,Harga (Rp/kantong)\n";
+    ITEMS.forEach(i => csv += `${i},${Number(curData.prices?.[i] || 0)}\n`);
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href=url;
+    a.download="harga_grosir_kantong_"+curDate+".csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // init
+  (function(){
+    const t = todayStr();
+    const y = yestStr(t);
+
+    const sel = document.getElementById("dateSelect");
+    sel.innerHTML = `
+      <option value="${t}">Hari ini (${t})</option>
+      <option value="${y}">Kemarin (${y})</option>
+    `;
+    sel.addEventListener("change", e => load(e.target.value));
+    document.getElementById("search").addEventListener("input", render);
+
+    load(t);
+  })();
 </script>
 </body>
 </html>
